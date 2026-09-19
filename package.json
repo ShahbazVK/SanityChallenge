@@ -9,7 +9,10 @@
     "build": "sanity build",
     "deploy": "sanity deploy",
     "dev": "sanity dev",
-    "start": "sanity start"
+    "seed": "node scripts/seed.mjs",
+    "start": "sanity start",
+    "studio": "sanity dev",
+    "studio:build": "sanity build"
   },
   "keywords": [
     "sanity"
@@ -23,6 +26,7 @@
     "styled-components": "^6.1.18"
   },
   "devDependencies": {
+    "@sanity/client": "^7.27.0",
     "@sanity/eslint-config-studio": "^7",
     "@types/react": "^19.2.14",
     "eslint": "^10.8.1",
