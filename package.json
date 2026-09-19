@@ -1,0 +1,33 @@
+{
+  "name": "sanity",
+  "private": true,
+  "version": "1.0.0",
+  "type": "module",
+  "main": "package.json",
+  "license": "UNLICENSED",
+  "scripts": {
+    "build": "sanity build",
+    "deploy": "sanity deploy",
+    "dev": "sanity dev",
+    "start": "sanity start"
+  },
+  "keywords": [
+    "sanity"
+  ],
+  "dependencies": {
+    "@sanity/sdk": "^2",
+    "@sanity/sdk-react": "^2",
+    "@sanity/ui": "^3.5.0",
+    "react": "^19.2.4",
+    "react-dom": "^19.2.4",
+    "styled-components": "^6.1.18"
+  },
+  "devDependencies": {
+    "@sanity/eslint-config-studio": "^7",
+    "@types/react": "^19.2.14",
+    "eslint": "^10.8.1",
+    "prettier": "^3.5",
+    "sanity": "^6.15.0",
+    "typescript": "^5.8"
+  }
+}
