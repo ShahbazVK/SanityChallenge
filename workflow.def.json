@@ -1,0 +1,10 @@
+{
+  "_comment": "Single source of truth for the case state machine (Track B). Consumed by: the seed-time validator, the approval UI's Approve/Override button enablement, and a test asserting that seeded caseEvents never violate this table. NOT imported by schema files - schemaTypes/workflowStages.ts mirrors `stages` and `actors` as TS consts, and a seed-time validator asserts the two files agree. STRUCTURAL INVARIANT: `ruled` may only be fired by `human`. No agent, script, or system path can move a case to `ruled`; that is what makes 'agent proposes, human rules' a structural property rather than a promise. The `detected -> ruled` edge is the direct-resolve path, so a human may rule without a proposal (the v1 form stays reachable). A `proposed -> proposed` self-edge is deliberately absent: re-proposal would silently mutate an audited artifact, so the agent asserts stage == 'detected' and no-ops otherwise, keeping the event log strictly linear. Development iteration uses scripts/agent.mjs --dev, which clears the derived artifacts and re-proposes rather than adding a transition.",
+  "stages": ["detected", "proposed", "ruled", "superseded"],
+  "transitions": [
+    {"from": "detected", "to": "proposed", "actors": ["agent", "human", "seed"]},
+    {"from": "proposed", "to": "ruled", "actors": ["human"]},
+    {"from": "ruled", "to": "superseded", "actors": ["agent", "human", "system"]},
+    {"from": "detected", "to": "ruled", "actors": ["human"]}
+  ]
+}

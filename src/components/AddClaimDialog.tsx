@@ -24,9 +24,12 @@ import {
  * memoization never sees a change. They are consumed by TriageDashboard (which already
  * sits inside a Suspense boundary) and passed in as props, so the dialog itself never
  * suspends and opens immediately.
+ *
+ * The query strings themselves now live in `src/queries.ts`, so the app has exactly one
+ * place that talks to Content Lake. These are re-exports to keep this module's public
+ * surface unchanged.
  */
-export const TOPICS_OPTIONS = {query: `*[_type == "topic"]{_id, name} | order(name asc)`}
-export const SOURCES_OPTIONS = {query: `*[_type == "source"]{_id, title} | order(title asc)`}
+export {SOURCES_OPTIONS, TOPICS_OPTIONS} from '../queries'
 
 const MIN_STATEMENT_LENGTH = 5
 const MIN_VALUE_LENGTH = 2
@@ -153,12 +156,14 @@ export function AddClaimDialog({topics, sources, onClose, onCreated}: AddClaimDi
     <LayerProvider>
       <Dialog
         footer={
-          <Flex gap={2} justify="flex-end" padding={3}>
+          // `padding={4}` matches the content padding, so the buttons line up with the fields
+          // instead of sitting closer to the dialog edge than the form above them.
+          <Flex gap={2} justify="flex-end" padding={4}>
             <Button mode="ghost" onClick={onClose} text="Cancel" />
             <Button
               disabled={!isReadyToSubmit}
               onClick={handleSubmit}
-              text={isSaving ? 'Creating…' : 'Create Claim'}
+              text={isSaving ? 'Creating…' : 'Create claim'}
               tone="primary"
             />
           </Flex>
@@ -168,7 +173,17 @@ export function AddClaimDialog({topics, sources, onClose, onCreated}: AddClaimDi
         onClose={onClose}
         width={1}
       >
-        <Stack space={4}>
+        {/* `Dialog` pads its header (and the footer pads itself) but renders its CHILDREN
+            raw - see @sanity/ui's DialogCard, which wraps the header in `<Flex padding={3}>`
+            and puts `children` straight into `DialogContent`. Without this padding the
+            labels and inputs sit flush against the dialog edge while the header above them
+            is inset, which is what made this form look broken. */}
+        <Stack padding={4} space={5}>
+          <Text muted size={1}>
+            A claim is one source’s assertion about a topic. Two claims on the same topic with
+            different values are in contradiction.
+          </Text>
+
           <Stack space={2}>
             <Label as="label" htmlFor="claim-statement">
               Statement
@@ -181,7 +196,7 @@ export function AddClaimDialog({topics, sources, onClose, onCreated}: AddClaimDi
               value={statement}
             />
             <Text muted size={0}>
-              Required — at least {MIN_STATEMENT_LENGTH} characters.
+              Required: at least {MIN_STATEMENT_LENGTH} characters.
             </Text>
           </Stack>
 
@@ -196,8 +211,8 @@ export function AddClaimDialog({topics, sources, onClose, onCreated}: AddClaimDi
               value={value}
             />
             <Text muted size={0}>
-              The normalized value this claim asserts. E.g. “14 days”, “30 days”, “7 years”. Claims with
-              different values on the same topic are in contradiction.
+              The comparison key for its topic: two claims with different values are in
+              contradiction.
             </Text>
           </Stack>
 
@@ -257,7 +272,7 @@ export function AddClaimDialog({topics, sources, onClose, onCreated}: AddClaimDi
           {missingLookups ? (
             <Card border padding={3} radius={2} tone="caution">
               <Text size={1}>
-                Add at least one topic and one source before creating claims — both dropdowns need an
+                Add at least one topic and one source before creating claims: both dropdowns need an
                 option.
               </Text>
             </Card>

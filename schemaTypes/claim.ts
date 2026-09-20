@@ -45,6 +45,13 @@ export const claim = defineType({
       to: [{type: 'topic'}],
       validation: (rule) => rule.required(),
     }),
+    /**
+     * @deprecated Derive via: count(*[_type=="instruction" && references(^._id)]) > 0
+     *
+     * Retained during the expand window so the deployed v1 app keeps working. Phase 8
+     * removes it from the schema and unsets the data; no transform is needed because the
+     * derivation was verified to reproduce this field exactly on every claim in the dataset.
+     */
     defineField({
       name: 'status',
       title: 'Status',
@@ -67,6 +74,15 @@ export const claim = defineType({
           })
           .warning(),
     }),
+    /**
+     * @deprecated Derive via: *[_type=="instruction" && $claimId in overruled[]._ref][0]
+     *
+     * NOTE: this field encodes "overruled by", NOT "involved in a ruling" - a winning
+     * claim carries no `resolvedBy`. Any naive derivation using `references($claimId)`
+     * matches winners and overruled claims alike and will mislabel winners as losers.
+     * That ambiguity is why the new schema splits `instruction.winner` from
+     * `instruction.overruled[]`, and why every derivation here is role-aware.
+     */
     defineField({
       name: 'resolvedBy',
       title: 'Resolved by',
