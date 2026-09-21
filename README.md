@@ -4,9 +4,9 @@ A governance tool for structured content, built on the [Sanity App SDK](https://
 
 When two sources disagree, an agent proposes a ruling with cited precedent, a human approves or overrides it, and the decision becomes a typed, queryable document that future decisions can cite.
 
-**Submission for the DEV × Sanity Challenge.**
+Read the writeup: [One Predicate, Two Meanings, Three Bugs](https://dev.to/shahbaz_ali/one-predicate-two-meanings-three-bugs-building-a-contradiction-resolver-with-the-sanity-app-sdk-3jm7)
 
-**Demo video:** https://youtu.be/3FO7lC7xahg
+**Demo video:** [https://youtu.be/3FO7lC7xahg](https://youtu.be/3FO7lC7xahg)
 
 ---
 
@@ -410,10 +410,10 @@ Challenge judge credentials and access details can be provided separately with t
 └── ...
 ```
 
-
-
 ## Challenge
 
-Built for the DEV × Sanity Challenge.
+Built for the [DEV × Sanity Challenge](https://dev.to/shahbaz_ali/one-predicate-two-meanings-three-bugs-building-a-contradiction-resolver-with-the-sanity-app-sdk-3jm7).
 
-Tags: `sanitychallenge` `sanity` `devchallenge` `ai`
+Read the writeup: [One Predicate, Two Meanings, Three Bugs](https://dev.to/shahbaz_ali/one-predicate-two-meanings-three-bugs-building-a-contradiction-resolver-with-the-sanity-app-sdk-3jm7)
+
+Tags: sanitychallenge sanity devchallenge ai
