@@ -6,7 +6,7 @@ When two sources disagree, an agent proposes a ruling with cited precedent, a hu
 
 **Submission for the DEV × Sanity Challenge.**
 
-**Demo video:** [VIDEO_LINK]
+**Demo video:** https://youtu.be/3FO7lC7xahg
 
 ---
 
